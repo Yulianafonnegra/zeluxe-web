@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- =========================================================
+       ZELUXE - Prototipo funcional de modelo de negocio digital
+       Archivo único: index.html
+       Sin frameworks, sin dependencias externas, listo para Vercel
+  ========================================================== -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ZELUXE | Compras de Estados Unidos sin complicaciones</title>
+
+  <meta 
+    name="description" 
+    content="ZELUXE facilita la compra de productos de Estados Unidos para personas que desean comprar ropa, zapatos, perfumes, vitaminas y productos en tendencia de forma segura y acompañada."
+  />
+
+  <style>
+    /* =========================================================
+       VARIABLES DE DISEÑO
+    ========================================================== */
+    :root {
+      --color-bg: #fffaf3;
+      --color-bg-soft: #f7eadc;
+      --color-primary: #c8843f;
+      --color-primary-dark: #8b5528;
+      --color-gold: #d7a84f;
+      --color-dark: #1f1b17;
+      --color-text: #3a312a;
+      --color-muted: #74665a;
+      --color-white: #ffffff;
+      --color-card: rgba(255, 255, 255, 0.82);
+      --shadow-soft: 0 18px 45px rgba(89, 53, 23, 0.12);
+      --shadow-card: 0 12px 30px rgba(62, 39, 20, 0.10);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --max-width: 1160px;
+    }
+
+    /* =========================================================
+       RESET BÁSICO
+    ========================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(215, 168, 79, 0.22), transparent 34%),
+        radial-gradient(circle at top right, rgba(200, 132, 63, 0.16), transparent 32%),
+        var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* =========================================================
+       UTILIDADES
+    ========================================================== */
+    .container {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 88px 0;
+    }
+
+    .section-small {
+      padding: 64px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(215, 168, 79, 0.16);
+      color: var(--color-primary-dark);
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      color: var(--color-dark);
+      margin-bottom: 18px;
+      letter-spacing: -1px;
+    }
+
+    .section-description {
+      max-width: 760px;
+      color: var(--color-muted);
+      font-size: 1.05rem;
+      margin-bottom: 34px;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-center .section-description {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--color-card);
+      border: 1px solid rgba(139, 85, 40, 0.12);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(10px);
+    }
+
+    .card h3 {
+      color: var(--color-dark);
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: var(--color-muted);
+      font-size: 0.98rem;
+    }
+
+    .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-primary));
+      display: grid;
+      place-items: center;
+      color: var(--color-white);
+      font-size: 1.35rem;
+      margin-bottom: 18px;
+      box-shadow: 0 12px 24px rgba(200, 132, 63, 0.28);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 24px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 0.98rem;
+    }
+
+    .btn-primary {
+      color: var(--color-white);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      box-shadow: 0 14px 28px rgba(139, 85, 40, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 34px rgba(139, 85, 40, 0.36);
+    }
+
+    .btn-secondary {
+      color: var(--color-primary-dark);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(139, 85, 40, 0.18);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+      background: var(--color-white);
+      box-shadow: var(--shadow-card);
+    }
+
+    /* =========================================================
+       HEADER
+    ========================================================== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 250, 243, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(139, 85, 40, 0.10);
+    }
+
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      color: var(--color-dark);
+      letter-spacing: 1px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: var(--color-white);
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-gold));
+      box-shadow: 0 12px 25px rgba(200, 132, 63, 0.28);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.92rem;
+      color: var(--color-muted);
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-primary-dark);
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================== */
+    .hero {
+      padding: 92px 0 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.7rem, 6vw, 5.4rem);
+      line-height: 0.98;
+      letter-spacing: -3px;
+      color: var(--color-dark);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      color: var(--color-primary);
+    }
+
+    .hero-description {
+      font-size: 1.14rem;
+      color: var(--color-muted);
+      max-width: 640px;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 640px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(139, 85, 40, 0.10);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.35rem;
+      color: var(--color-dark);
+    }
+
+    .stat span {
+      font-size: 0.88rem;
+      color: var(--color-muted);
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 470px;
+      border-radius: 36px;
+      background:
+        linear-gradient(135deg, rgba(31, 27, 23, 0.95), rgba(139, 85, 40, 0.88)),
+        radial-gradient(circle at 30% 20%, rgba(215, 168, 79, 0.42), transparent 30%);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      padding: 32px;
+      color: var(--color-white);
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: rgba(215, 168, 79, 0.28);
+      top: -80px;
+      right: -70px;
+    }
+
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.10);
+      bottom: -60px;
+      left: -60px;
+    }
+
+    .mockup-card {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 26px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+      margin-bottom: 18px;
+    }
+
+    .mockup-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 8px;
+    }
+
+    .mockup-card p {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .product-list {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .product-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+    }
+
+    .product-item span:first-child {
+      font-weight: 700;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(215, 168, 79, 0.22);
+      color: #ffe7a5;
+      font-weight: 800;
+      font-size: 0.78rem;
+    }
+
+    /* =========================================================
+       SECCIONES ESPECIALES
+    ========================================================== */
+    .problem-box {
+      background: linear-gradient(135deg, rgba(31, 27, 23, 0.96), rgba(139, 85, 40, 0.88));
+      color: var(--color-white);
+      border-radius: 36px;
+      padding: 46px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .problem-box .section-title,
+    .problem-box h3 {
+      color: var(--color-white);
+    }
+
+    .problem-box .section-description,
+    .problem-box p {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .steps {
+      counter-reset: steps;
+    }
+
+    .step {
+      position: relative;
+      padding-left: 62px;
+    }
+
+    .step::before {
+      counter-increment: steps;
+      content: counter(steps);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-primary));
+      color: var(--color-white);
+      font-weight: 900;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .feature-list li {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--color-muted);
+    }
+
+    .feature-list li strong {
+      color: var(--color-dark);
+    }
+
+    .highlight {
+      color: var(--color-primary-dark);
+      font-weight: 900;
+    }
+
+    .channel-pill {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(139, 85, 40, 0.12);
+      box-shadow: var(--shadow-card);
+      font-weight: 800;
+      color: var(--color-dark);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .mvp-panel {
+      background:
+        linear-gradient(135deg, rgba(247, 234, 220, 0.92), rgba(255, 255, 255, 0.86));
+      border: 1px solid rgba(139, 85, 40, 0.12);
+      border-radius: 36px;
+      padding: 42px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 18px;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(139, 85, 40, 0.10);
+    }
+
+    .timeline-item strong {
+      color: var(--color-primary-dark);
+    }
+
+    /* =========================================================
+       CONTACTO
+    ========================================================== */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .contact-card {
+      background: var(--color-dark);
+      color: var(--color-white);
+      border-radius: 36px;
+      padding: 36px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .contact-card h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .contact-card p {
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 24px;
+    }
+
+    .contact-buttons {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--color-white);
+      font-weight: 800;
+      transition: all 0.2s ease;
+    }
+
+    .contact-link:hover {
+      background: rgba(215, 168, 79, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .form {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(139, 85, 40, 0.12);
+      border-radius: 36px;
+      padding: 36px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .form label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--color-dark);
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .form input,
+    .form select,
+    .form textarea {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(139, 85, 40, 0.16);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--color-text);
+      outline: none;
+      font-family: inherit;
+      font-size: 0.96rem;
+    }
+
+    .form input:focus,
+    .form select:focus,
+    .form textarea:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px rgba(200, 132, 63, 0.12);
+    }
+
+    .form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .note {
+      font-size: 0.84rem;
+      color: var(--color-muted);
+      margin-top: 12px;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================== */
+    .footer {
+      padding: 34px 0;
+      border-top: 1px solid rgba(139, 85, 40, 0.10);
+      background: rgba(255, 255, 255, 0.44);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: var(--color-muted);
+      font-size: 0.94rem;
+    }
+
+    .footer strong {
+      color: var(--color-dark);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================== */
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-2,
+      .contact-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-visual {
+        min-height: auto;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section {
+        padding: 64px 0;
+      }
+
+      .hero {
+        padding: 64px 0 48px;
+      }
+
+      .hero h1 {
+        letter-spacing: -1.5px;
+      }
+
+      .hero-stats,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .problem-box,
+      .mvp-panel,
+      .contact-card,
+      .form {
+        padding: 26px;
+        border-radius: 26px;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 24px;
+      }
+
+      .brand span:last-child {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =========================================================
+       MENÚ SUPERIOR
+  ========================================================== -->
+  <header class="header">
+    <nav class="nav container" aria-label="Menú principal">
+      <a href="#inicio" class="brand" aria-label="Ir al inicio">
+        <span class="brand-mark">Z</span>
+        <span>ZELUXE</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#problema">Problema</a>
+        <a href="#solucion">Solución</a>
+        <a href="#valor">Valor</a>
+        <a href="#servicio">Servicio</a>
+        <a href="#mvp">MVP</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+
+      <a href="#contacto" class="btn btn-primary">Comprar ahora</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- =========================================================
+         HERO PRINCIPAL
+    ========================================================== -->
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">✨ Compras internacionales con confianza</span>
+
+          <h1>
+            Productos de Estados Unidos,
+            <span>sin complicaciones.</span>
+          </h1>
+
+          <p class="hero-description">
+            ZELUXE ayuda a personas que desean comprar ropa, zapatos, perfumes,
+            vitaminas y productos en tendencia de Estados Unidos, pero no saben
+            cómo hacerlo o desconfían de las compras por internet.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#contacto" class="btn btn-primary">Compra ahora con ZELUXE</a>
+            <a href="#solucion" class="btn btn-secondary">Ver cómo funciona</a>
+          </div>
+
+          <div class="hero-stats" aria-label="Datos clave del negocio">
+            <div class="stat">
+              <strong>18-70</strong>
+              <span>Años, público objetivo</span>
+            </div>
+
+            <div class="stat">
+              <strong>100%</strong>
+              <span>Acompañamiento digital</span>
+            </div>
+
+            <div class="stat">
+              <strong>USA</strong>
+              <span>Productos en tendencia</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-visual" aria-label="Vista conceptual del servicio ZELUXE">
+          <div class="mockup-card">
+            <span class="badge">Prototipo MBA</span>
+            <h3>Tu compra internacional, gestionada por expertos</h3>
+            <p>
+              Seleccionas el producto, recibes asesoría, confirmas tu pedido
+              y ZELUXE se encarga del proceso de compra y entrega.
+            </p>
+          </div>
+
+          <div class="product-list">
+            <div class="product-item">
+              <span>👗 Ropa americana</span>
+              <span class="badge">Tendencia</span>
+            </div>
+
+            <div class="product-item">
+              <span>👟 Zapatos y accesorios</span>
+              <span class="badge">Original</span>
+            </div>
+
+            <div class="product-item">
+              <span>🌸 Perfumería</span>
+              <span class="badge">Premium</span>
+            </div>
+
+            <div class="product-item">
+              <span>💊 Vitaminas</span>
+              <span class="badge">Bienestar</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PROBLEMA
+    ========================================================== -->
+    <section class="section" id="problema">
+      <div class="container problem-box">
+        <span class="eyebrow">🚧 Problema del mercado</span>
+
+        <div class="grid grid-2">
+          <div>
+            <h2 class="section-title">
+              Comprar en Estados Unidos aún es difícil para muchas personas.
+            </h2>
+
+            <p class="section-description">
+              Aunque existen miles de productos atractivos en tiendas
+              internacionales, muchos clientes no compran porque sienten
+              desconfianza, desconocen el proceso o temen perder su dinero.
+            </p>
+          </div>
+
+          <div class="grid">
+            <article class="card">
+              <h3>Desconfianza digital</h3>
+              <p>
+                El cliente teme comprar en páginas desconocidas, pagar en línea
+                o no recibir el producto esperado.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Falta de conocimiento</h3>
+              <p>
+                Muchas personas no saben manejar direcciones internacionales,
+                métodos de pago, envíos, impuestos o tiempos de entrega.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Acceso limitado</h3>
+              <p>
+                Algunos productos en tendencia no están disponibles localmente
+                o llegan a precios muy altos por canales tradicionales.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SOLUCIÓN
+    ========================================================== -->
+    <section class="section" id="solucion">
+      <div class="container">
+        <div class="text-center">
+          <span class="eyebrow">✅ Solución propuesta</span>
+
+          <h2 class="section-title">
+            ZELUXE simplifica todo el proceso de compra internacional.
+          </h2>
+
+          <p class="section-description">
+            La plataforma funciona como un puente confiable entre el cliente
+            colombiano y los productos de Estados Unidos, ofreciendo orientación,
+            gestión de compra y acompañamiento personalizado.
+          </p>
+        </div>
+
+        <div class="grid grid-3 steps">
+          <article class="card step">
+            <h3>El cliente elige</h3>
+            <p>
+              Puede solicitar un producto específico o explorar recomendaciones
+              de productos americanos en tendencia.
+            </p>
+          </article>
+
+          <article class="card step">
+            <h3>ZELUXE asesora</h3>
+            <p>
+              Se confirma disponibilidad, precio estimado, tiempos de entrega
+              y condiciones antes de realizar la compra.
+            </p>
+          </article>
+
+          <article class="card step">
+            <h3>Compra segura</h3>
+            <p>
+              ZELUXE gestiona la compra y mantiene comunicación clara hasta la
+              entrega final del producto.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
